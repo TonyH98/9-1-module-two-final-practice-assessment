@@ -8,9 +8,13 @@ const p2 = document.querySelector("#age")
 const p3 = document.querySelector("#hair")
 
 const form = document.querySelector("form")
-
 const shoutout = document.querySelector("#shoutout")
-console.log(shoutout)
+
+const submit = document.getElementById("submit")
+
+const error = document.querySelectorAll(".error")
+
+console.log(section.value)
 
 let people
 
@@ -32,6 +36,8 @@ fetch(url)
     
 })
 .catch((error) => console.log(error))
+
+
 
 section.addEventListener("change", () => {
     fetch(`${url}/${section.value}`)
@@ -61,34 +67,52 @@ section.addEventListener("change", () => {
 
 form.addEventListener("submit", (event) => {
     event.preventDefault()
-    fetch(`${url}`)
-    .then((res) => res.json())
-    .then((resJson) => {
-        resJson.forEach((element) => {
-            const name = element.name
-            console.log(name)
-            generateName(name)
-        })
-    })
-    .catch((error) => console.log(error))
-})
-
-
-function getName(name){
-    const li = document.createElement("li")
-    li.textContent
-
-    if(name){
-        const strong = document.createElement("strong")
-        strong.textContent = name
-        li.append(strong)
+    if(section.value === ""){
+        error[0].classList.remove("hidden")
     }
-    return li
-   
+    else {
+        error[0].classList.add("hidden")
+
+    }
+    if(event.target.shoutout.value === ""){
+        error[1].classList.remove("hidden")
+    }
+    else{
+        error[1].classList.add("hidden")
+        fetch(`${url}`)
+        .then((res) => res.json())
+        .then((resJson) => {
+            const names = event.target.shoutout.value
+            resJson.forEach((element) => {
+                const character = element.name
+                if(character.includes(names)){
+                    generateList(names)
+                }
+            })
+            form.reset()
+        })
+        .catch((error) => console.log(error))
+    }
+    })
+
+
+function addList(names){
+    const li = document.createElement("li")
+    const strong = document.createElement("strong")
+    strong.textContent
+    if(names){
+        strong.append(li, names)
+    }
+    
+    return strong
 }
 
-function generateName(name){
-    const li = getName(name)
-    const ul = document.querySelector("ul")
+
+function generateList(names){
+    const li = addList(names);
+    const ul = document.querySelector("ul");
+    
     ul.append(li)
+    
+    
 }

@@ -30,3 +30,16 @@ hr{
 h4{
     font-style: italic;
 }
+
+li{
+   list-style: none;
+}
+
+.hidden{
+    display: none;
+}
+
+.error, .error2{
+    font-size: 13px;
+    color: red
+}
