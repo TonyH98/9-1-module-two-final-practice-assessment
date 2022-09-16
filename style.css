@@ -1,0 +1,32 @@
+body{
+    background-color: azure;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header{
+    height: 150px;
+    width: 100%;
+    text-align: center;
+}
+
+img{
+    height: 100px;
+    width: 100px;
+    border: 1px solid black;
+    border-radius: 50%;
+}
+
+h1{
+    background-color: #000 ;
+    color: rgb(255,255,255);
+}
+
+hr{
+    width: 50%;
+}
+h4{
+    font-style: italic;
+}
