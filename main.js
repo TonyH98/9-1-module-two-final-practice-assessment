@@ -14,7 +14,8 @@ const submit = document.getElementById("submit")
 
 const error = document.querySelectorAll(".error")
 
-console.log(section.value)
+const reset = document.querySelector("#reset-shoutouts")
+console.log(reset)
 
 let people
 
@@ -95,6 +96,13 @@ form.addEventListener("submit", (event) => {
     }
     })
 
+    reset.addEventListener("click", () => {
+       const unorder = document.querySelector("ul")
+       const strong = document.querySelectorAll("strong")
+       strong.forEach((str) => {
+        unorder.removeChild(str)
+       })
+    })
 
 function addList(names){
     const li = document.createElement("li")
