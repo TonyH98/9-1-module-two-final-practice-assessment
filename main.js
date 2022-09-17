@@ -15,112 +15,119 @@ const submit = document.getElementById("submit")
 const error = document.querySelectorAll(".error")
 
 const reset = document.querySelector("#reset-shoutouts")
-console.log(reset)
 
-let people
+
+
+
 
 fetch(url)
 .then((res) => res.json())
 .then((resJson) => {
-    people = resJson
-    
+   
     for(let i = 0; i < resJson.length; i++){
-       const characterNames = resJson[i].name
+        const characterNames = resJson[i].name
         const option = document.createElement("option")
         option.innerHTML = characterNames
         option.value = resJson[i].id
         section.append(option)
         option.textContent = characterNames
-         
-     }
-
-    
+        
+    }
+     
 })
 .catch((error) => console.log(error))
 
 
 
-section.addEventListener("change", () => {
+
+
+section.addEventListener("change", (event) => {
+    
     fetch(`${url}/${section.value}`)
     .then((res) => res.json())
     .then((resJson) => {
         const name = resJson.name
-        console.log(name)
-        h4.innerHTML = ""
+        
         h4.innerHTML = name
-
+        
         const eyeColor = resJson.eye_color
-        p1.innerHTML = ""
+        
         p1.innerHTML = eyeColor
-
+        
         const age = resJson.age
-        p2.innerHTML = ""
+        
         p2.innerHTML = age
-
+        
         const hair = resJson.hair_color
-        p3.innerHTML = ""
+
         p3.innerHTML = hair
-
-
+        
     })
     .catch((error) => console.log(error))
 })
 
+
+
 form.addEventListener("submit", (event) => {
     event.preventDefault()
+   
     if(section.value === ""){
         error[0].classList.remove("hidden")
     }
     else {
         error[0].classList.add("hidden")
-
+        
     }
-    if(event.target.shoutout.value === ""){
-        error[1].classList.remove("hidden")
-    }
-    else{
-        error[1].classList.add("hidden")
-        fetch(`${url}`)
-        .then((res) => res.json())
-        .then((resJson) => {
-            const names = event.target.shoutout.value
-            resJson.forEach((element) => {
-                const character = element.name
-                if(character.includes(names)){
-                    generateList(names)
-                }
-            })
+    error[1].classList.add("hidden")
+    fetch(`${url}/${section.value}`)
+    .then((res) => res.json())
+    .then((resJson) => {
+        const name = resJson.name
+        
+        const greeting = event.target.shoutout.value
+        if(greeting === ""){
+            error[1].classList.remove("hidden")
+            error[1].textContent = `Please add a shout for ${name}`
+        }
+            
+            generateList(greeting, name)
+            
             form.reset()
         })
         .catch((error) => console.log(error))
-    }
+        
+        
+    
+        
     })
-
+    
     reset.addEventListener("click", () => {
-       const unorder = document.querySelector("ul")
-       const strong = document.querySelectorAll("strong")
-       strong.forEach((str) => {
+        const unorder = document.querySelector("ul")
+    const strong = document.querySelectorAll("strong")
+    strong.forEach((str) => {
+        
         unorder.removeChild(str)
-       })
     })
+})
 
-function addList(names){
-    const li = document.createElement("li")
+function addList(greeting, name){
     const strong = document.createElement("strong")
-    strong.textContent
-    if(names){
-        strong.append(li, names)
+    strong.textContent 
+
+    if(name){
+        strong.textContent +=  `${name}: ${greeting}`
+        strong.append(document.createElement("br"))
     }
     
     return strong
 }
 
 
-function generateList(names){
-    const li = addList(names);
+function generateList(greeting, name){
+    const li = addList(greeting, name);
     const ul = document.querySelector("ul");
     
     ul.append(li)
-    
-    
 }
+
+
